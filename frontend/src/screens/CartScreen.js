@@ -12,8 +12,7 @@ import {
   Image,
   Button,
 } from 'react-bootstrap';
-import { cartAction } from '../actions/cartAction.js';
-import { removeCartItem } from '../actions/removeCartAction.js';
+import { cartAction, removeCartItem } from '../actions/cartAction.js';
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
