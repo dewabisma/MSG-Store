@@ -32,7 +32,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(400);
-    throw new Error('User already exists');
+    throw new Error('Email is already used');
   }
 
   const user = await User.create({
