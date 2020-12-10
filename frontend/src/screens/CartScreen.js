@@ -12,7 +12,7 @@ import {
   Image,
   Button,
 } from 'react-bootstrap';
-import { cartAction, removeCartItem } from '../actions/cartAction.js';
+import { addItemToCart, removeCartItem } from '../actions/cartAction.js';
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
@@ -26,7 +26,7 @@ const CartScreen = ({ match, location, history }) => {
 
   useEffect(() => {
     if (productId) {
-      dispatch(cartAction(productId, qty));
+      dispatch(addItemToCart(productId, qty));
     }
   }, [productId, dispatch, qty]);
 
@@ -65,7 +65,7 @@ const CartScreen = ({ match, location, history }) => {
                         value={item.qty}
                         onChange={(e) =>
                           dispatch(
-                            cartAction(item.product, Number(e.target.value))
+                            addItemToCart(item.product, Number(e.target.value))
                           )
                         }
                       >
