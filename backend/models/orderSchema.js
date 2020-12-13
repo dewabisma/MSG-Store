@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const orderSchema = mongoose.Schema(
   {
-    User: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User',
@@ -41,7 +41,7 @@ const orderSchema = mongoose.Schema(
         type: String,
         required: true,
       },
-      postal_code: {
+      postalCode: {
         type: String,
         required: true,
       },
@@ -50,7 +50,7 @@ const orderSchema = mongoose.Schema(
         required: true,
       },
     },
-    payment_methods: {
+    paymentMethod: {
       type: String,
       required: true,
     },
@@ -68,17 +68,17 @@ const orderSchema = mongoose.Schema(
         type: String,
       },
     },
-    tax_price: {
+    taxPrice: {
       type: Number,
       required: true,
       default: 0.0,
     },
-    shipping_price: {
+    shippingPrice: {
       type: Number,
       required: true,
       default: 0.0,
     },
-    total_price: {
+    totalPrice: {
       type: Number,
       required: true,
       default: 0.0,

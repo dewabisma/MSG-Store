@@ -10,3 +10,9 @@ h2 {
 .rating span {
   margin-left: 0.1rem;
 }
+
+.centering-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
