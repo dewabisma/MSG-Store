@@ -12,7 +12,7 @@ import {
 } from '../utils/calculatePrice.js';
 import { createOrderItems } from '../actions/orderAction.js';
 
-const PlaceOrder = ({ history }) => {
+const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
@@ -35,7 +35,7 @@ const PlaceOrder = ({ history }) => {
   const { order, success, error } = orderCreated;
 
   useEffect(() => {
-    if (order) {
+    if (success) {
       history.push(`/orders/${order._id}`);
     }
   }, [history, success, order]);
@@ -169,4 +169,4 @@ const PlaceOrder = ({ history }) => {
   );
 };
 
-export default PlaceOrder;
+export default PlaceOrderScreen;
