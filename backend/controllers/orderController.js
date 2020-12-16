@@ -69,6 +69,8 @@ const updateOrderStatusToPaid = asyncHandler(async (req, res) => {
       email_address: req.body.payer.email_address,
     };
 
+    console.log(order.paymentResult);
+
     const updatedOrder = await order.save();
 
     res.json(updatedOrder);
@@ -78,4 +80,18 @@ const updateOrderStatusToPaid = asyncHandler(async (req, res) => {
   }
 });
 
-export { addOrderItems, getOrderByID, updateOrderStatusToPaid };
+// @desc    Get logged in user's orders
+// @route   GET /api/orders/myorders
+// @access  Private
+const getLoggedInUserOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id });
+
+  res.json(orders);
+});
+
+export {
+  addOrderItems,
+  getOrderByID,
+  updateOrderStatusToPaid,
+  getLoggedInUserOrders,
+};
