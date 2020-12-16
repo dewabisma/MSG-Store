@@ -32,7 +32,7 @@ const ProfileScreen = ({ history }) => {
     if (!userInfo) {
       history.push('/login');
     } else {
-      if (!user.name) {
+      if (!user || !user.name) {
         dispatch(getUserDetails('profile'));
         dispatch(listUserOrders());
       } else {
@@ -130,26 +130,26 @@ const ProfileScreen = ({ history }) => {
             </thead>
             <tbody>
               {orders.map((order) => (
-                <tr>
+                <tr key={order._id}>
                   <td>{order._id}</td>
-                  <td>{order.createdAt}</td>
+                  <td>{order.createdAt.substring(0, 10)}</td>
                   <td>${order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
-                      order.paidAt
+                      order.paidAt.substring(0, 10)
                     ) : (
                       <i className='fas fa-times' style={{ color: 'red' }}></i>
                     )}
                   </td>
                   <td>
                     {order.isDelivered ? (
-                      order.deliveredAt
+                      order.deliveredAt.substring(0, 10)
                     ) : (
                       <i className='fas fa-times' style={{ color: 'red' }}></i>
                     )}
                   </td>
                   <td>
-                    <LinkContainer to={`/api/orders/${order._id}`}>
+                    <LinkContainer to={`/orders/${order._id}`}>
                       <Button variant='light'>Details</Button>
                     </LinkContainer>
                   </td>

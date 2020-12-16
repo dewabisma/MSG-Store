@@ -186,9 +186,6 @@ const OrderScreen = ({ match }) => {
                     <PayPalButton
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
-                      options={{
-                        buyerCountry: 'US',
-                      }}
                     />
                   )}
                 </ListGroup.Item>
