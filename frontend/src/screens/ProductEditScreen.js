@@ -3,9 +3,11 @@ import { Form, Button } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { productDetails } from '../actions/productAction.js';
+import { updateProduct } from '../actions/productListAction.js';
 import { Link } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import { PRODUCT_UPDATE_RESET } from '../constants/productListConstants';
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id;
@@ -26,26 +28,51 @@ const ProductEditScreen = ({ match, history }) => {
   const productDetailsFromGlobalState = useSelector((state) => state.product);
   const { loading, error, product } = productDetailsFromGlobalState;
 
+  const productUpdate = useSelector((state) => state.productUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = productUpdate;
+
   useEffect(() => {
-    if (!userInfo && !userInfo.isAdmin) {
-      history.push('/login');
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      history.push('/admin/product-list');
     } else {
-      if (!product || product._id !== productId) {
-        dispatch(productDetails(productId));
+      if (!userInfo && !userInfo.isAdmin) {
+        history.push('/login');
       } else {
-        setName(product.name);
-        setPrice(product.price);
-        setBrand(product.brand);
-        setCategory(product.category);
-        setImage(product.image);
-        setCountInStock(product.countInStock);
-        setDescription(product.description);
+        if (!product || product._id !== productId) {
+          dispatch(productDetails(productId));
+        } else {
+          setName(product.name);
+          setPrice(product.price);
+          setBrand(product.brand);
+          setCategory(product.category);
+          setImage(product.image);
+          setCountInStock(product.countInStock);
+          setDescription(product.description);
+        }
       }
     }
-  }, [history, userInfo, product, dispatch, productId]);
+  }, [history, userInfo, product, dispatch, productId, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    dispatch(
+      updateProduct({
+        _id: productId,
+        name,
+        price,
+        image,
+        brand,
+        category,
+        countInStock,
+        description,
+      })
+    );
   };
 
   return (
@@ -60,6 +87,9 @@ const ProductEditScreen = ({ match, history }) => {
       ) : (
         <FormContainer>
           <h1>Edit User</h1>
+
+          {loadingUpdate && <Loader />}
+          {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
 
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>
