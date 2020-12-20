@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormContainer from '../components/FormContainer';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,12 +8,27 @@ import CheckoutSteps from '../components/CheckoutSteps';
 const ShippingScreen = ({ history }) => {
   const { shippingAddress } = useSelector((state) => state.cart);
 
-  const [address, setAddress] = useState(shippingAddress.address);
-  const [city, setCity] = useState(shippingAddress.city);
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
-  const [country, setCountry] = useState(shippingAddress.country);
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [country, setCountry] = useState('');
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push('/login');
+    } else {
+      if (shippingAddress) {
+        setAddress(shippingAddress.address);
+        setCity(shippingAddress.city);
+        setPostalCode(shippingAddress.postalCode);
+        setCountry(shippingAddress.country);
+      }
+    }
+  }, [history, shippingAddress, userInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();

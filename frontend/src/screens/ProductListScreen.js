@@ -36,7 +36,7 @@ const ProductListScreen = ({ history }) => {
   } = productCreate;
 
   useEffect(() => {
-    if (!userInfo.isAdmin) {
+    if (!userInfo || !userInfo.isAdmin) {
       history.push('/login');
     }
 

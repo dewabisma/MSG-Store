@@ -16,3 +16,8 @@ h2 {
   align-items: center;
   justify-content: center;
 }
+
+#uploaded-image {
+  display: block;
+  width: 200px;
+}

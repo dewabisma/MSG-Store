@@ -14,6 +14,8 @@ import {
   orderDetailsReducer,
   orderPayReducer,
   listUserOrdersReducer,
+  listAllUsersOrdersReducer,
+  orderDeliverReducer,
 } from './reducers/orderReducer.js';
 import {
   userLoginReducer,
@@ -24,6 +26,7 @@ import {
   deleteUserReducer,
   userUpdateReducer,
 } from './reducers/userReducer.js';
+import { uploadImageReducer } from './reducers/uploadImageReducer.js';
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -43,6 +46,9 @@ const reducer = combineReducers({
   orderCreated: orderReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
+  orderDeliver: orderDeliverReducer,
+  orderList: listAllUsersOrdersReducer,
+  uploadImage: uploadImageReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')

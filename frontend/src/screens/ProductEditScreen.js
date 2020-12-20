@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import path from 'path';
 import { Form, Button } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { productDetails } from '../actions/productAction.js';
 import { updateProduct } from '../actions/productListAction.js';
+import { uploadImage } from '../actions/uploadImageAction.js';
 import { Link } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { PRODUCT_UPDATE_RESET } from '../constants/productListConstants';
+import { UPLOAD_IMAGE_RESET } from '../constants/uploadImageConstants';
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id;
@@ -35,12 +38,21 @@ const ProductEditScreen = ({ match, history }) => {
     success: successUpdate,
   } = productUpdate;
 
+  const uploadedImage = useSelector((state) => state.uploadImage);
+  const {
+    uploading: uploadingImage,
+    error: errorUploading,
+    imagePath,
+  } = uploadedImage;
+
   useEffect(() => {
     if (successUpdate) {
+      dispatch({ type: UPLOAD_IMAGE_RESET });
       dispatch({ type: PRODUCT_UPDATE_RESET });
+
       history.push('/admin/product-list');
     } else {
-      if (!userInfo && !userInfo.isAdmin) {
+      if (!userInfo || !userInfo.isAdmin) {
         history.push('/login');
       } else {
         if (!product || product._id !== productId) {
@@ -50,13 +62,26 @@ const ProductEditScreen = ({ match, history }) => {
           setPrice(product.price);
           setBrand(product.brand);
           setCategory(product.category);
-          setImage(product.image);
+          if (imagePath) {
+            setImage(imagePath);
+          } else {
+            setImage(product.image);
+          }
+
           setCountInStock(product.countInStock);
           setDescription(product.description);
         }
       }
     }
-  }, [history, userInfo, product, dispatch, productId, successUpdate]);
+  }, [
+    history,
+    userInfo,
+    product,
+    dispatch,
+    productId,
+    successUpdate,
+    imagePath,
+  ]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -75,6 +100,14 @@ const ProductEditScreen = ({ match, history }) => {
     );
   };
 
+  const uploadFileHandler = (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+
+    dispatch(uploadImage(formData));
+  };
+
   return (
     <>
       <Link to='/admin/product-list' className='btn btn-light my-3'>
@@ -86,7 +119,7 @@ const ProductEditScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <FormContainer>
-          <h1>Edit User</h1>
+          <h1>Edit Product</h1>
 
           {loadingUpdate && <Loader />}
           {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
@@ -134,12 +167,27 @@ const ProductEditScreen = ({ match, history }) => {
 
             <Form.Group controlId='image'>
               <Form.Label>Image URL</Form.Label>
+              <img
+                id='uploaded-image'
+                src={path.join(path.resolve(), image)}
+                alt='uploaded'
+              />
               <Form.Control
                 type='text'
                 value={image}
                 placeholder='Enter product image URL'
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
+              <Form.File
+                id='image-file'
+                label='Choose File'
+                custom
+                onChange={uploadFileHandler}
+              ></Form.File>
+              {uploadingImage && <Loader />}
+              {errorUploading && (
+                <Message variant='danger'>{errorUploading}</Message>
+              )}
             </Form.Group>
 
             <Form.Group controlId='countInStock'>

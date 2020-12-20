@@ -35,7 +35,7 @@ const UserEditScreen = ({ match, history }) => {
       dispatch({ type: USER_UPDATE_RESET });
       history.push('/admin/user-list');
     } else {
-      if (!userInfo && !userInfo.isAdmin) {
+      if (!userInfo || !userInfo.isAdmin) {
         history.push('/login');
       } else {
         if (!user || !user.name || user._id !== userId) {
