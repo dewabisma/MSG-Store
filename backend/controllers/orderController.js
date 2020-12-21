@@ -55,7 +55,7 @@ const getOrderByID = asyncHandler(async (req, res) => {
 
 // @desc    Update order status to be paid
 // @route   PUT /api/orders/:id/pay
-// @access  Private
+// @access  Private/Admin
 const updateOrderStatusToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
@@ -80,6 +80,9 @@ const updateOrderStatusToPaid = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Update order status to be paid
+// @route   PUT /api/orders/:id/deliver
+// @access  Private/Admin
 const updateDeliverStatusToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
