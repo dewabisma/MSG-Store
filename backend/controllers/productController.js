@@ -130,7 +130,7 @@ const addProductReview = asyncHandler(async (req, res) => {
       const addedReview = await product.save();
 
       res.status(201);
-      res.json(addedReview);
+      res.json({ message: 'Review added!' });
     }
   } else {
     res.status(404);
