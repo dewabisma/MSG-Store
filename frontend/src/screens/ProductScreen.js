@@ -15,6 +15,7 @@ import { productDetails } from '../actions/productAction.js';
 import Rating from '../components/Rating';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 import { PRODUCT_REVIEW_CREATE_RESET } from '../constants/productListConstants';
 
 const ProductScreen = ({ history, match }) => {
@@ -68,6 +69,7 @@ const ProductScreen = ({ history, match }) => {
 
   return (
     <>
+      <Meta title={product.name} description={product.description} />
       <Link to='/' className='btn btn-light my-3'>
         Go Back
       </Link>
