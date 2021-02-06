@@ -68,6 +68,7 @@ const OrderScreen = ({ match, history }) => {
       if (!order || order._id !== orderId || successPay || successDeliver) {
         dispatch({ type: ORDER_PAY_RESET });
         dispatch({ type: ORDER_DELIVER_RESET });
+
         dispatch(getOrderDetailsById(orderId));
       } else if (!order.isPaid) {
         if (!window.paypal) {
@@ -204,7 +205,7 @@ const OrderScreen = ({ match, history }) => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {userInfo && !userInfo.isAdmin && !order.isPaid && (
+              {userInfo && !order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {errorDeliver && (
