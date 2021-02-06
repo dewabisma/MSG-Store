@@ -83,6 +83,7 @@ const OrderScreen = ({ match, history }) => {
     console.log(paymentResult);
     dispatch(updateOrderStatusToBePaid(orderId, paymentResult));
   };
+
   const successDeliverHandler = () => {
     dispatch(updateDeliverStatusToBeDelivered(order));
   };

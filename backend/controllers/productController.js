@@ -158,8 +158,23 @@ const addProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc get top rated products
+// @route GET /api/products/top
+// @access Public
+const getTopRatedProducts = asyncHandler(async (req, res) => {
+  const topProducts = await Product.find({}).sort({ rating: -1 }).limit(3);
+
+  if (topProducts) {
+    res.json(topProducts);
+  } else {
+    res.status(404);
+    throw new Error('No product yet');
+  }
+});
+
 export {
   getProducts,
+  getTopRatedProducts,
   getProductById,
   deleteProductById,
   createNewProduct,

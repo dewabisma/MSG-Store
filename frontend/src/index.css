@@ -17,6 +17,16 @@ h2 {
   justify-content: center;
 }
 
+.carousel-item {
+  height: 25rem;
+}
+
+.carousel-image {
+  height: 20rem;
+  padding: 1rem;
+  border-radius: 2rem;
+}
+
 #uploaded-image {
   display: block;
   width: 200px;
